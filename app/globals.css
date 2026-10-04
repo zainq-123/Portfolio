@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-switzer), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Tokens measured from the reference (kima.framer.media, dark mode). */
+@theme {
+  --color-ink: #121212;
+  --color-ink-2: #1b1b1b;
+  --color-line: #2f2f2f;
+  --color-muted: #ababab;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee 52s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+html {
+  background: var(--color-ink);
+  color: #fff;
+  color-scheme: dark;
+}
+
+::selection {
+  background: #fff;
+  color: #000;
+}
+
+/* Entrance on first paint — plain CSS so it never waits for JS. No opacity fade on purpose: content
+   must be visibly painted from the first frame or Chrome can't record LCP (Lighthouse reported NO_LCP).
+   `--i` staggers it; big image cards set --reveal-blur: 0px because blurring large layers is costly. */
+@keyframes reveal {
+  from {
+    transform: translateY(14px);
+    filter: blur(var(--reveal-blur, 8px));
+  }
+}
+
+@utility reveal {
+  animation: reveal 0.8s var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 100ms);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* Article body (blog posts): plain semantic HTML styled here, so posts stay lean (good text/HTML ratio). */
+@utility prose-article {
+  color: var(--color-muted);
+  font-size: 17px;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+  & > * + * {
+    margin-top: 1.25em;
+  }
+  & h2 {
+    margin-top: 2.4em;
+    color: #fff;
+    font-size: clamp(24px, 2.2vw, 30px);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    scroll-margin-top: 2rem;
+  }
+  & h3 {
+    margin-top: 1.8em;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+  }
+  & strong {
+    color: #fff;
+    font-weight: 500;
+  }
+  & a {
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-color: rgb(255 255 255 / 0.35);
+    text-underline-offset: 4px;
+  }
+  & a:hover {
+    text-decoration-color: #fff;
+  }
+  & ul,
+  & ol {
+    padding-left: 1.25em;
+  }
+  & ul {
+    list-style: disc;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & li + li {
+    margin-top: 0.5em;
+  }
+  & li::marker {
+    color: rgb(255 255 255 / 0.4);
+  }
+  & code {
+    padding: 0.15em 0.4em;
+    border-radius: 6px;
+    background: rgb(255 255 255 / 0.07);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+  }
+  & pre {
+    overflow-x: auto;
+    padding: 1.1em 1.25em;
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    background: #181818;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  & pre code {
+    padding: 0;
+    background: none;
+    color: #e5e5e5;
+    font-size: inherit;
+  }
+  & blockquote {
+    padding-left: 1em;
+    border-left: 2px solid rgb(255 255 255 / 0.3);
+    color: #fff;
+  }
+  & table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  & th,
+  & td {
+    padding: 0.65em 0.75em;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+    vertical-align: top;
+  }
+  & th {
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
