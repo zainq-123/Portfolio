@@ -15,6 +15,7 @@ Live at **[zain.zwdevs.com](https://zain.zwdevs.com)**.
 - Blog at `/blog` with SEO-focused articles
 - Meta tags, Open Graph images, JSON-LD (Person, BreadcrumbList, BlogPosting)
 - `robots.txt` and `sitemap.xml`, generated from `app/robots.js` and `app/sitemap.js`
+- Rate limit of 15 page requests per minute per IP (`proxy.js`)
 
 ## Run locally
 
