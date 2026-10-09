@@ -7,7 +7,7 @@ Live at **[zain.zwdevs.com](https://zain.zwdevs.com)**.
 
 - [Next.js](https://nextjs.org) (App Router) — every page is prerendered as static HTML
 - Tailwind CSS, Framer Motion (`motion`)
-- Images served as AVIF via `next/image`
+- Images: AVIFs pre-built at build time (`scripts/build-images.mjs`), served by `next/image` through a custom loader — the server never encodes images
 
 ## What's inside
 
