@@ -43,3 +43,6 @@ next-env.d.ts
 # local AI-agent notes (not part of the project)
 /AGENTS.md
 /CLAUDE.md
+
+# pre-built AVIFs (scripts/build-images.mjs runs on every build)
+/public/_img/

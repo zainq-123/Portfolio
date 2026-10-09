@@ -4,17 +4,18 @@ const nextConfig = {
   turbopack: { root: import.meta.dirname },
   // Hide Next's dev-only "N" badge (it never ships to production anyway).
   devIndicators: false,
-  // Serve AVIF first (smallest), WebP as the fallback.
+  // Images are AVIFs pre-built at build time (scripts/build-images.mjs reads these widths), so the
+  // server never runs sharp — runtime encoding is what held Railway RAM at ~780 MB.
   images: {
-    formats: ["image/avif", "image/webp"],
-    // Sources are ≤ 2000px wide, so the default 2048/3840 widths only re-encode the same pixels.
+    loader: "custom",
+    loaderFile: "./lib/image-loader.js",
+    // Sources are ≤ 2000px wide, so 2048/3840 would only repeat the same pixels.
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [64, 128, 256, 384],
   },
-  experimental: {
-    // sharp starts one libvips thread per ~2 host cores; Railway hosts expose dozens, and every
-    // thread keeps its own AVIF buffers → RAM jumped to 1.2 GB and never came back. One is enough here.
-    imgOptConcurrency: 1,
-    imgOptOperationCache: false,
+  async headers() {
+    // Not content-hashed, so not "immutable": 30 days. Replacing an image? Give the file a new name.
+    return [{ source: "/_img/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=2592000" }] }];
   },
 };
 
