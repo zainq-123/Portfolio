@@ -46,6 +46,8 @@ export const metadata = {
     "max-video-preview": -1,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
+  // Proves ownership to Google Search Console. Removing it un-verifies the property.
+  verification: { google: "b-Ne_VO9h7UyGZ7FekkP1eNDixZ8ede32x2oJ8mEaYE" },
 };
 
 export const viewport = { themeColor: "#121212" };
